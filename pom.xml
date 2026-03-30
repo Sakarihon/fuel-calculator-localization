@@ -16,7 +16,6 @@
 
     <dependencies>
 
-        <!-- JavaFX Controls (WINDOWS FIX ADDED) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -24,7 +23,6 @@
             <classifier>win</classifier>
         </dependency>
 
-        <!-- JavaFX FXML (WINDOWS FIX ADDED) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -37,7 +35,6 @@
     <build>
         <plugins>
 
-            <!-- JavaFX plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -47,7 +44,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

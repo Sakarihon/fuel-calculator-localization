@@ -24,7 +24,6 @@ public class Controller {
         currentLocale = locale;
 
         try {
-            // ✅ FIXED: proper Java i18n way
             bundle = ResourceBundle.getBundle("messages", locale);
 
             lblDistance.setText(bundle.getString("distance.label"));
@@ -32,7 +31,6 @@ public class Controller {
             lblPrice.setText(bundle.getString("price.label"));
             btnCalculate.setText(bundle.getString("calculate.button"));
 
-            // ✅ reset result on language change
             lblResult.setText("");
 
         } catch (Exception e) {
