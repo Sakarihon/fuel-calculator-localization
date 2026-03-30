@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.sakari.fuelcalculator.Controller"
+      spacing="10"
+      alignment="CENTER">
+
+    <Label fx:id="lblDistance"/>
+    <TextField fx:id="txtDistance"/>
+
+    <Label fx:id="lblConsumption"/>
+    <TextField fx:id="txtConsumption"/>
+
+    <Label fx:id="lblPrice"/>
+    <TextField fx:id="txtPrice"/>
+
+    <Button fx:id="btnCalculate"
+            text="Calculate"
+            onAction="#handleCalculate"/>
+
+    <Label fx:id="lblResult"/>
+
+    <HBox spacing="10">
+        <Button text="EN" onAction="#setEnglish"/>
+        <Button text="FR" onAction="#setFrench"/>
+        <Button text="JP" onAction="#setJapanese"/>
+        <Button text="IR" onAction="#setPersian"/>
+    </HBox>
+
+</VBox>
