@@ -10,20 +10,20 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/fuel-calculator-localization.git'
+                git 'https://github.com/sakarihonkavaara/fuel-calculator-localization.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("sakarihonkavaara/fuelcalculator:latest", ".")
+                    docker.build("sakarihonkavaara/fuelcalculator:latest")
                 }
             }
         }

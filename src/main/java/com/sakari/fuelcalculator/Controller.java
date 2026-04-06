@@ -2,9 +2,7 @@ package com.sakari.fuelcalculator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Controller {
 
@@ -12,31 +10,35 @@ public class Controller {
     @FXML private TextField txtDistance, txtConsumption, txtPrice;
     @FXML private Button btnCalculate;
 
-    private ResourceBundle bundle;
-    private Locale currentLocale;
+    private final LocalizationService localizationService = new LocalizationService();
+    private final CalculationService calculationService = new CalculationService();
+
+    private String currentLanguage = "en";
+
 
     @FXML
     public void initialize() {
-        setLanguage(new Locale("en", "US"));
+        setLanguage("en");
     }
 
-    private void setLanguage(Locale locale) {
-        currentLocale = locale;
-
+    private void setLanguage(String lang) {
         try {
-            bundle = ResourceBundle.getBundle("messages", locale);
+            currentLanguage = lang;
 
-            lblDistance.setText(bundle.getString("distance.label"));
-            lblConsumption.setText(bundle.getString("consumption.label"));
-            lblPrice.setText(bundle.getString("price.label"));
-            btnCalculate.setText(bundle.getString("calculate.button"));
+            localizationService.loadStrings(lang);
+
+            lblDistance.setText(localizationService.getString("distance.label"));
+            lblConsumption.setText(localizationService.getString("consumption.label"));
+            lblPrice.setText(localizationService.getString("price.label"));
+            btnCalculate.setText(localizationService.getString("calculate.button"));
 
             lblResult.setText("");
 
         } catch (Exception e) {
-            lblResult.setText("Missing language file!");
+            lblResult.setText("Missing language data in database!");
         }
     }
+
 
     @FXML
     private void handleCalculate() {
@@ -48,32 +50,28 @@ public class Controller {
             double totalFuel = (consumption / 100) * distance;
             double totalCost = totalFuel * price;
 
-            String result = MessageFormat.format(
-                    bundle.getString("result.label"),
-                    String.format("%.2f", totalFuel),
-                    String.format("%.2f", totalCost)
-            );
+            String result = localizationService.getString("result.label")
+                    .replace("{0}", String.format("%.2f", totalFuel))
+                    .replace("{1}", String.format("%.2f", totalCost));
 
             lblResult.setText(result);
 
+            calculationService.saveCalculation(
+                    distance,
+                    consumption,
+                    price,
+                    totalFuel,
+                    totalCost,
+                    currentLanguage
+            );
+
         } catch (Exception e) {
-            lblResult.setText(bundle.getString("invalid.input"));
+            lblResult.setText(localizationService.getString("invalid.input"));
         }
     }
 
-    @FXML private void setEnglish() {
-        setLanguage(new Locale("en", "US"));
-    }
-
-    @FXML private void setFrench() {
-        setLanguage(new Locale("fr", "FR"));
-    }
-
-    @FXML private void setJapanese() {
-        setLanguage(new Locale("ja", "JP"));
-    }
-
-    @FXML private void setPersian() {
-        setLanguage(new Locale("fa", "IR"));
-    }
+    @FXML private void setEnglish() { setLanguage("en"); }
+    @FXML private void setFrench() { setLanguage("fr"); }
+    @FXML private void setJapanese() { setLanguage("ja"); }
+    @FXML private void setPersian() { setLanguage("fa"); }
 }

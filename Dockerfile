@@ -12,4 +12,4 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
-ENTRYPOINT ["java", "--module-path", "/javafx/lib", "--add-modules", "javafx.controls,javafx.fxml", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]

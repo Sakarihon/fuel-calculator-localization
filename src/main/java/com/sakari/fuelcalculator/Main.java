@@ -9,11 +9,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/layout.fxml")
+        );
+
         Scene scene = new Scene(loader.load());
 
         stage.setTitle("Fuel Calculator - Sakari Honkavaara");
-
         stage.setScene(scene);
         stage.show();
     }
