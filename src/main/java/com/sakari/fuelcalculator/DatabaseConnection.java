@@ -36,6 +36,10 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        return DriverManager.getConnection(
+                url + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+                user,
+                password
+        );
     }
 }

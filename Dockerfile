@@ -1,7 +1,6 @@
-FROM eclipse-temurin:17-jdk
+FROM mysql:8.0
 
-WORKDIR /app
+COPY database/schema.sql /docker-entrypoint-initdb.d/01-schema.sql
+COPY database/localization_data.sql /docker-entrypoint-initdb.d/02-data.sql
 
-COPY target/fuel-calculator-localization-1.0-SNAPSHOT.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+EXPOSE 3306

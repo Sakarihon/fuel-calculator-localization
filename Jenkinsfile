@@ -20,13 +20,6 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("sakarihonkavaara/fuelcalculator:latest")
-                }
-            }
-        }
     }
 
     post {

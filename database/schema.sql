@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS fuel_calculator_localization
-CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS fuel_db
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE fuel_calculator_localization;
+USE fuel_db;
 
 CREATE TABLE IF NOT EXISTS calculation_records (
                                                    id INT AUTO_INCREMENT PRIMARY KEY,
@@ -11,13 +11,13 @@ CREATE TABLE IF NOT EXISTS calculation_records (
                                                    total_fuel DOUBLE NOT NULL,
                                                    total_cost DOUBLE NOT NULL,
                                                    language VARCHAR(10),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+                                                   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE IF NOT EXISTS localization_strings (
                                                     id INT AUTO_INCREMENT PRIMARY KEY,
                                                     `key` VARCHAR(100) NOT NULL,
-    value VARCHAR(255) NOT NULL,
-    language VARCHAR(10) NOT NULL,
-    UNIQUE KEY unique_key_lang (`key`, `language`)
-    );
+                                                    value VARCHAR(255) NOT NULL,
+                                                    language VARCHAR(10) NOT NULL,
+                                                    UNIQUE KEY unique_key_lang (`key`, `language`)
+);
