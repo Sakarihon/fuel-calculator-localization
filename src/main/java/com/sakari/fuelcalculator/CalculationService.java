@@ -29,7 +29,7 @@ public class CalculationService {
             System.out.println("Saved to database!");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Database save failed: " + e.getMessage());
         }
     }
 }

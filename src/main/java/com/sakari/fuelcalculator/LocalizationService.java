@@ -28,7 +28,7 @@ public class LocalizationService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Localization load failed: " + e.getMessage());
         }
     }
 
