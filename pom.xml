@@ -18,8 +18,9 @@
 
         <jacoco.version>0.8.11</jacoco.version>
 
-        <!-- Force correct encoding -->
+        <!-- Pakotetaan UTF-8 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -52,7 +53,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Mockito for unit tests -->
+        <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -90,21 +91,26 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 
-            <!-- ✅ FIXED: Surefire must use JaCoCo agent argument -->
+            <!-- Surefire (testien ajo) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <argLine>@{argLine}</argLine>   <!-- Required for JaCoCo -->
+                    <argLine>@{argLine}</argLine>   <!-- Tärkeä JaCoCo:lle -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*Tests.java</include>
+                    </includes>
                     <useFile>false</useFile>
                 </configuration>
             </plugin>
 
-            <!-- ✅ JaCoCo configuration -->
+            <!-- JaCoCo (kattavuus) -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -126,7 +132,7 @@
                 </executions>
             </plugin>
 
-            <!-- SonarQube scanner (optional, since you use sonar-scanner CLI) -->
+            <!-- SonarQube (valinnainen, koska käytät sonar-scanneria) -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
