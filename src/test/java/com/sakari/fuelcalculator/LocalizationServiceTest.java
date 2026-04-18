@@ -42,7 +42,7 @@ class LocalizationServiceTest {
         service.loadStrings("fr");
         int secondSize = service.getAllKeys().size();
 
-        assertTrue(secondSize >= 0); // triggers reload path
+        assertTrue(secondSize >= 0);
     }
 
     @Test
@@ -56,5 +56,33 @@ class LocalizationServiceTest {
         service.getString("unknown");
 
         assertTrue(true);
+    }
+
+    @Test
+    void testGetAllKeysAfterLoad() {
+        LocalizationService service = new LocalizationService();
+        service.loadStrings("en");
+        assertFalse(service.getAllKeys().isEmpty());
+    }
+
+    @Test
+    void testDefaultLanguageIsEnglish() {
+        LocalizationService service = new LocalizationService();
+        // Oleta, että oletuskieli on "en"
+        assertEquals("en", service.getCurrentLanguage());
+    }
+
+    @Test
+    void testLoadStringsWithNullLanguage() {
+        LocalizationService service = new LocalizationService();
+        assertDoesNotThrow(() -> service.loadStrings(null));
+    }
+
+    @Test
+    void testGetStringWithNullKey() {
+        LocalizationService service = new LocalizationService();
+        service.loadStrings("en");
+        String result = service.getString(null);
+        assertTrue(result.contains("MISSING"));
     }
 }
