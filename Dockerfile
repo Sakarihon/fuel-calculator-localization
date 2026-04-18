@@ -1,15 +1,6 @@
-FROM maven:3.9.4-eclipse-temurin-17 AS build
-WORKDIR /app
+FROM mysql:8.0
 
-COPY pom.xml .
-RUN mvn dependency:go-offline
+COPY database/schema.sql /docker-entrypoint-initdb.d/01-schema.sql
+COPY database/localization_data.sql /docker-entrypoint-initdb.d/02-data.sql
 
-COPY src ./src
-RUN mvn clean package -DskipTests
-
-FROM eclipse-temurin:17-jre
-WORKDIR /app
-
-COPY --from=build /app/target/*.jar app.jar
-
-ENTRYPOINT ["java", "--module-path", "/javafx/lib", "--add-modules", "javafx.controls,javafx.fxml", "-jar", "app.jar"]
+EXPOSE 3306
