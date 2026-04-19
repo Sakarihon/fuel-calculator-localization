@@ -2,7 +2,12 @@ package com.sakari.fuelcalculator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class LocalizationServiceTest {
     private LocalizationService service;
@@ -84,5 +89,24 @@ class LocalizationServiceTest {
     @Test
     void testLoadUnsupportedLanguage() {
         assertDoesNotThrow(() -> service.loadStrings("xx"));
+    }
+
+    @Test
+    void getString_UnknownKey_ReturnsMissing() {
+        service.loadStrings("en");
+        String result = service.getString("tuntematon.avain");
+        assertTrue(result.contains("MISSING"));
+    }
+
+    @Test
+    void loadStrings_SQLException_DoesNotThrow() throws SQLException {
+        Connection mockConn = mock(Connection.class);
+        when(mockConn.prepareStatement(anyString())).thenThrow(new SQLException("DB down"));
+
+        try (MockedStatic<DatabaseConnection> dbMock = mockStatic(DatabaseConnection.class)) {
+            dbMock.when(DatabaseConnection::getConnection).thenReturn(mockConn);
+            assertDoesNotThrow(() -> service.loadStrings("en"));
+            assertEquals(0, service.getAllKeys().size());
+        }
     }
 }
