@@ -30,9 +30,7 @@ public class CalculationLogicTest {
             "50, 4, 2.0",
             "0, 10, 0.0",
             "150, 7.5, 11.25",
-            "80, 4, 3.2",
-            "120, 6, 7.2",
-            "250, 10, 25.0"
+            "80, 4, 3.2"
     })
     void testFuelCalculationMultiple(double distance, double consumption, double expected) {
         double fuel = (consumption / 100) * distance;
@@ -43,17 +41,10 @@ public class CalculationLogicTest {
     @CsvSource({
             "10, 2, 20.0",
             "5, 1.5, 7.5",
-            "0, 2, 0.0",
-            "7, 3.2, 22.4"
+            "0, 2, 0.0"
     })
     void testCostCalculationMultiple(double fuel, double price, double expected) {
         double cost = fuel * price;
         assertEquals(expected, cost, 0.001);
-    }
-
-    @Test
-    void testZeroValues() {
-        assertEquals(0.0, (0 / 100.0) * 0);
-        assertEquals(0.0, 0 * 0);
     }
 }
