@@ -1,29 +1,28 @@
 package com.sakari.fuelcalculator;
 
 import org.junit.jupiter.api.Test;
+import java.sql.Connection;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseConnectionTest {
 
     @Test
-    void testGetConnectionDoesNotThrow() {
-        // Jenkinsissä tämä onnistuu, paikallisesti voi heittää poikkeuksen
-        try {
-            DatabaseConnection.getConnection();
-        } catch (Exception e) {
-            // Paikallisesti ilman tietokantaa sallitaan
-            assertTrue(true);
-        }
+    void staticInitialization_PropertiesLoaded() {
+        assertDoesNotThrow(() -> {
+            // Staattinen lohko suoritetaan luokan latautuessa
+            Class.forName("com.sakari.fuelcalculator.DatabaseConnection");
+        });
     }
 
     @Test
-    void testStaticInitialization() {
-        assertDoesNotThrow(() -> {
-            try {
-                DatabaseConnection.getConnection();
-            } catch (Exception ignored) {
-                // OK
-            }
-        });
+    void getConnection_ReturnsNonNull() {
+        // Jenkinsissä tämä toimii (kontti käynnissä), paikallisesti voi heittää
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            assertNotNull(conn);
+            conn.close();
+        } catch (Exception e) {
+            fail("Connection should be available: " + e.getMessage());
+        }
     }
 }
