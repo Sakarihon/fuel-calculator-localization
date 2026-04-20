@@ -110,4 +110,34 @@ public class FuelCalculatorUtils {
     public static boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
+
+    // ---------- UUDET METODIT (nostavat kattavuutta) ----------
+    public static double gallonsToLiters(double gallons) {
+        return gallons * 3.78541;
+    }
+
+    public static double milesToKm(double miles) {
+        return miles / 0.621371;
+    }
+
+    public static double mpgToLper100km(double mpg) {
+        if (mpg <= 0) return 0.0;
+        return 235.214583 / mpg;
+    }
+
+    public static int calculateTripCount(double totalDistance, double averageTripLength) {
+        if (totalDistance < 0 || averageTripLength <= 0) return 0;
+        return (int) Math.ceil(totalDistance / averageTripLength);
+    }
+
+    public static boolean isLongTrip(double distance) {
+        return distance > 500.0;
+    }
+
+    public static String getTripCategory(double distance) {
+        if (distance < 50) return "Short";
+        else if (distance < 200) return "Medium";
+        else if (distance < 500) return "Long";
+        else return "Very Long";
+    }
 }

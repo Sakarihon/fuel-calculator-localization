@@ -144,4 +144,39 @@ class FuelCalculatorUtilsTest {
     void isNullOrEmpty_Whitespace() {
         assertTrue(FuelCalculatorUtils.isNullOrEmpty("   "));
     }
+
+    // ---------- UUDET TESTIT ----------
+    @Test
+    void gallonsToLiters() {
+        assertEquals(3.78541, FuelCalculatorUtils.gallonsToLiters(1.0), 0.001);
+    }
+
+    @Test
+    void milesToKm() {
+        assertEquals(1.60934, FuelCalculatorUtils.milesToKm(1.0), 0.01);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"47.04,5.0", "23.52,10.0", "0,0"})
+    void mpgToLper100km(double mpg, double expected) {
+        assertEquals(expected, FuelCalculatorUtils.mpgToLper100km(mpg), 0.01);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1000,200,5", "500,100,5", "0,10,0", "100,0,0"})
+    void calculateTripCount(double total, double avg, int expected) {
+        assertEquals(expected, FuelCalculatorUtils.calculateTripCount(total, avg));
+    }
+
+    @Test
+    void isLongTrip() {
+        assertTrue(FuelCalculatorUtils.isLongTrip(600));
+        assertFalse(FuelCalculatorUtils.isLongTrip(400));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"30,Short", "120,Medium", "300,Long", "600,Very Long"})
+    void getTripCategory(double distance, String expected) {
+        assertEquals(expected, FuelCalculatorUtils.getTripCategory(distance));
+    }
 }
