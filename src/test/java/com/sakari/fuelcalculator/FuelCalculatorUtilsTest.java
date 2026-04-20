@@ -1,0 +1,147 @@
+package com.sakari.fuelcalculator;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import static org.junit.jupiter.api.Assertions.*;
+
+class FuelCalculatorUtilsTest {
+
+    @Test
+    void calculateFuel_Valid() {
+        assertEquals(5.0, FuelCalculatorUtils.calculateFuel(100, 5), 0.001);
+    }
+
+    @Test
+    void calculateFuel_NegativeThrows() {
+        assertThrows(IllegalArgumentException.class, () -> FuelCalculatorUtils.calculateFuel(-1, 5));
+    }
+
+    @Test
+    void calculateCost_Valid() {
+        assertEquals(10.0, FuelCalculatorUtils.calculateCost(5, 2), 0.001);
+    }
+
+    @Test
+    void calculateCost_NegativeThrows() {
+        assertThrows(IllegalArgumentException.class, () -> FuelCalculatorUtils.calculateCost(5, -1));
+    }
+
+    @Test
+    void averageFuelConsumption_Normal() {
+        double[] trips = {5.0, 6.0, 7.0};
+        assertEquals(6.0, FuelCalculatorUtils.averageFuelConsumption(trips), 0.001);
+    }
+
+    @Test
+    void averageFuelConsumption_EmptyOrNull() {
+        assertEquals(0.0, FuelCalculatorUtils.averageFuelConsumption(null));
+        assertEquals(0.0, FuelCalculatorUtils.averageFuelConsumption(new double[0]));
+    }
+
+    @Test
+    void convertPricePerLiterToGallon() {
+        assertEquals(1.0 * 3.78541, FuelCalculatorUtils.convertPricePerLiterToGallon(1.0), 0.001);
+    }
+
+    @Test
+    void convertDistanceKmToMiles() {
+        assertEquals(0.621371, FuelCalculatorUtils.convertDistanceKmToMiles(1.0), 0.001);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5.0,47.04", "10.0,23.52", "0,0"})
+    void convertConsumptionLper100kmToMpg(double l, double expected) {
+        assertEquals(expected, FuelCalculatorUtils.convertConsumptionLper100kmToMpg(l), 0.01);
+    }
+
+    @Test
+    void isFuelEfficient() {
+        assertTrue(FuelCalculatorUtils.isFuelEfficient(5.0));
+        assertFalse(FuelCalculatorUtils.isFuelEfficient(7.0));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"3.0,Excellent", "5.0,Good", "7.0,Average", "9.0,Poor", "12.0,Very Poor"})
+    void getEfficiencyRating(double cons, String expected) {
+        assertEquals(expected, FuelCalculatorUtils.getEfficiencyRating(cons));
+    }
+
+    @Test
+    void roundToTwoDecimals() {
+        assertEquals(3.14, FuelCalculatorUtils.roundToTwoDecimals(3.14159), 0.001);
+    }
+
+    @Test
+    void calculateTripCost() {
+        assertEquals(10.0, FuelCalculatorUtils.calculateTripCost(100, 5, 2), 0.001);
+    }
+
+    @Test
+    void findMax() {
+        double[] vals = {1.0, 5.0, 3.0};
+        assertEquals(5.0, FuelCalculatorUtils.findMax(vals));
+        assertThrows(IllegalArgumentException.class, () -> FuelCalculatorUtils.findMax(null));
+        assertThrows(IllegalArgumentException.class, () -> FuelCalculatorUtils.findMax(new double[0]));
+    }
+
+    @Test
+    void findMin() {
+        double[] vals = {3.0, 1.0, 5.0};
+        assertEquals(1.0, FuelCalculatorUtils.findMin(vals));
+    }
+
+    @Test
+    void sum() {
+        double[] vals = {1.0, 2.0, 3.0};
+        assertEquals(6.0, FuelCalculatorUtils.sum(vals));
+        assertEquals(0.0, FuelCalculatorUtils.sum(null));
+    }
+
+    @Test
+    void formatCurrency() {
+        assertEquals("10.50 EUR", FuelCalculatorUtils.formatCurrency(10.5, "EUR"));
+        assertEquals("10.50 USD", FuelCalculatorUtils.formatCurrency(10.5, "USD"));
+        assertEquals("10.50 EUR", FuelCalculatorUtils.formatCurrency(10.5, null));
+    }
+
+    @Test
+    void formatDistance() {
+        assertEquals("123.5 km", FuelCalculatorUtils.formatDistance(123.5));
+    }
+
+    @Test
+    void applyDiscount() {
+        assertEquals(90.0, FuelCalculatorUtils.applyDiscount(100.0, 10), 0.001);
+        assertThrows(IllegalArgumentException.class, () -> FuelCalculatorUtils.applyDiscount(100, -5));
+        assertThrows(IllegalArgumentException.class, () -> FuelCalculatorUtils.applyDiscount(100, 101));
+    }
+
+    @Test
+    void calculateTax() {
+        assertEquals(24.0, FuelCalculatorUtils.calculateTax(100.0, 24.0), 0.001);
+    }
+
+    @Test
+    void safeToString() {
+        assertEquals("hello", FuelCalculatorUtils.safeToString("hello"));
+        assertEquals("null", FuelCalculatorUtils.safeToString(null));
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void isNullOrEmpty(String input) {
+        assertTrue(FuelCalculatorUtils.isNullOrEmpty(input));
+    }
+
+    @Test
+    void isNullOrEmpty_NonEmpty() {
+        assertFalse(FuelCalculatorUtils.isNullOrEmpty("hello"));
+    }
+
+    @Test
+    void isNullOrEmpty_Whitespace() {
+        assertTrue(FuelCalculatorUtils.isNullOrEmpty("   "));
+    }
+}
