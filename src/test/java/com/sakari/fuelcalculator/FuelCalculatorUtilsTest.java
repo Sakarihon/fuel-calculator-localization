@@ -226,4 +226,15 @@ class FuelCalculatorUtilsTest {
         assertFalse(FuelCalculatorUtils.isValidPrice(0));
         assertFalse(FuelCalculatorUtils.isValidPrice(-1));
     }
+    @ParameterizedTest
+    @CsvSource({"3.0,Low", "6.0,Medium", "9.0,High"})
+    void getFuelGrade(double cons, String expected) {
+        assertEquals(expected, FuelCalculatorUtils.getFuelGrade(cons));
+    }
+
+    @Test
+    void calculateCO2Emissions() {
+        assertEquals(23.1, FuelCalculatorUtils.calculateCO2Emissions(10.0), 0.01);
+        assertEquals(0.0, FuelCalculatorUtils.calculateCO2Emissions(0.0), 0.01);
+    }
 }

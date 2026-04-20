@@ -172,4 +172,13 @@ public class FuelCalculatorUtils {
     public static boolean isValidPrice(double price) {
         return price > 0;
     }
+    public static String getFuelGrade(double consumption) {
+        if (consumption < 5.0) return "Low";
+        else if (consumption < 8.0) return "Medium";
+        else return "High";
+    }
+
+    public static double calculateCO2Emissions(double fuelLiters) {
+        return fuelLiters * 2.31;
+    }
 }
