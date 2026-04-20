@@ -237,4 +237,21 @@ class FuelCalculatorUtilsTest {
         assertEquals(23.1, FuelCalculatorUtils.calculateCO2Emissions(10.0), 0.01);
         assertEquals(0.0, FuelCalculatorUtils.calculateCO2Emissions(0.0), 0.01);
     }
+    @ParameterizedTest
+    @CsvSource({"100,2,50.0", "0,5,0.0", "60,0,0.0"})
+    void calculateAverageSpeed(double distance, double time, double expected) {
+        assertEquals(expected, FuelCalculatorUtils.calculateAverageSpeed(distance, time), 0.01);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10,Light", "30,Moderate", "60,Heavy"})
+    void getTrafficLevel(int cars, String expected) {
+        assertEquals(expected, FuelCalculatorUtils.getTrafficLevel(cars));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"100,25,4", "50,10,5", "0,10,0", "100,0,0"})
+    void estimateStops(double distance, double interval, int expected) {
+        assertEquals(expected, FuelCalculatorUtils.estimateStops(distance, interval));
+    }
 }

@@ -181,4 +181,19 @@ public class FuelCalculatorUtils {
     public static double calculateCO2Emissions(double fuelLiters) {
         return fuelLiters * 2.31;
     }
+    public static double calculateAverageSpeed(double distance, double time) {
+        if (time <= 0) return 0.0;
+        return distance / time;
+    }
+
+    public static String getTrafficLevel(int carsPerMinute) {
+        if (carsPerMinute < 20) return "Light";
+        else if (carsPerMinute < 50) return "Moderate";
+        else return "Heavy";
+    }
+
+    public static int estimateStops(double distance, double stopInterval) {
+        if (distance <= 0 || stopInterval <= 0) return 0;
+        return (int) Math.floor(distance / stopInterval);
+    }
 }
