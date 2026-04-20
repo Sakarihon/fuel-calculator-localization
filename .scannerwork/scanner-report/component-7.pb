@@ -1,0 +1,1 @@
+ 2xmlXhr.src/main/resources/archetype-resources/pom.xml

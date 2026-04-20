@@ -1,0 +1,1 @@
+	 2javaX'hrAsrc/main/resources/archetype-resources/src/test/java/AppTest.java

@@ -1,0 +1,1 @@
+fuel-calculator-localization :		Rsakari-fuel-calculator
