@@ -111,7 +111,6 @@ public class FuelCalculatorUtils {
         return str == null || str.trim().isEmpty();
     }
 
-    // ---------- UUDET METODIT (nostavat kattavuutta) ----------
     public static double gallonsToLiters(double gallons) {
         return gallons * 3.78541;
     }
@@ -139,5 +138,38 @@ public class FuelCalculatorUtils {
         else if (distance < 200) return "Medium";
         else if (distance < 500) return "Long";
         else return "Very Long";
+    }
+
+    // ---------- UUDET METODIT (viimeiset 5 %) ----------
+    public static double litersPer100kmToKml(double lPer100km) {
+        if (lPer100km <= 0) return 0.0;
+        return 100.0 / lPer100km;
+    }
+
+    public static double kmlToLitersPer100km(double kml) {
+        if (kml <= 0) return 0.0;
+        return 100.0 / kml;
+    }
+
+    public static double calculateFuelCostForTrip(double distance, double consumption, double price) {
+        return calculateTripCost(distance, consumption, price);
+    }
+
+    public static String createTripSummary(double distance, double consumption, double price) {
+        double fuel = calculateFuel(distance, consumption);
+        double cost = calculateCost(fuel, price);
+        return String.format(Locale.US, "Trip: %.1f km, Fuel: %.2f L, Cost: %.2f EUR", distance, fuel, cost);
+    }
+
+    public static boolean isValidFuelConsumption(double consumption) {
+        return consumption > 0 && consumption < 100;
+    }
+
+    public static boolean isValidDistance(double distance) {
+        return distance >= 0;
+    }
+
+    public static boolean isValidPrice(double price) {
+        return price > 0;
     }
 }

@@ -145,7 +145,6 @@ class FuelCalculatorUtilsTest {
         assertTrue(FuelCalculatorUtils.isNullOrEmpty("   "));
     }
 
-    // ---------- UUDET TESTIT ----------
     @Test
     void gallonsToLiters() {
         assertEquals(3.78541, FuelCalculatorUtils.gallonsToLiters(1.0), 0.001);
@@ -178,5 +177,53 @@ class FuelCalculatorUtilsTest {
     @CsvSource({"30,Short", "120,Medium", "300,Long", "600,Very Long"})
     void getTripCategory(double distance, String expected) {
         assertEquals(expected, FuelCalculatorUtils.getTripCategory(distance));
+    }
+
+    // ---------- UUSIEN METODIEN TESTIT ----------
+    @ParameterizedTest
+    @CsvSource({"5.0,20.0", "10.0,10.0", "0,0"})
+    void litersPer100kmToKml(double l, double expected) {
+        assertEquals(expected, FuelCalculatorUtils.litersPer100kmToKml(l), 0.01);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"20.0,5.0", "10.0,10.0", "0,0"})
+    void kmlToLitersPer100km(double kml, double expected) {
+        assertEquals(expected, FuelCalculatorUtils.kmlToLitersPer100km(kml), 0.01);
+    }
+
+    @Test
+    void calculateFuelCostForTrip() {
+        assertEquals(10.0, FuelCalculatorUtils.calculateFuelCostForTrip(100, 5, 2), 0.001);
+    }
+
+    @Test
+    void createTripSummary() {
+        String summary = FuelCalculatorUtils.createTripSummary(100, 5, 2);
+        assertTrue(summary.contains("Trip: 100.0 km"));
+        assertTrue(summary.contains("Fuel: 5.00 L"));
+        assertTrue(summary.contains("Cost: 10.00 EUR"));
+    }
+
+    @Test
+    void isValidFuelConsumption() {
+        assertTrue(FuelCalculatorUtils.isValidFuelConsumption(5.0));
+        assertFalse(FuelCalculatorUtils.isValidFuelConsumption(0));
+        assertFalse(FuelCalculatorUtils.isValidFuelConsumption(150));
+        assertFalse(FuelCalculatorUtils.isValidFuelConsumption(-5));
+    }
+
+    @Test
+    void isValidDistance() {
+        assertTrue(FuelCalculatorUtils.isValidDistance(100));
+        assertTrue(FuelCalculatorUtils.isValidDistance(0));
+        assertFalse(FuelCalculatorUtils.isValidDistance(-10));
+    }
+
+    @Test
+    void isValidPrice() {
+        assertTrue(FuelCalculatorUtils.isValidPrice(2.0));
+        assertFalse(FuelCalculatorUtils.isValidPrice(0));
+        assertFalse(FuelCalculatorUtils.isValidPrice(-1));
     }
 }
