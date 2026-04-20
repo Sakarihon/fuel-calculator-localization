@@ -254,4 +254,15 @@ class FuelCalculatorUtilsTest {
     void estimateStops(double distance, double interval, int expected) {
         assertEquals(expected, FuelCalculatorUtils.estimateStops(distance, interval));
     }
+    @ParameterizedTest
+    @CsvSource({"100,5,2,0.10", "200,8,1.5,0.06", "0,5,2,0.0"})
+    void calculateCostPerKm(double distance, double consumption, double price, double expected) {
+        assertEquals(expected, FuelCalculatorUtils.calculateCostPerKm(distance, consumption, price), 0.01);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0.03,Very Low", "0.08,Low", "0.12,Medium", "0.20,High"})
+    void getCostCategory(double cost, String expected) {
+        assertEquals(expected, FuelCalculatorUtils.getCostCategory(cost));
+    }
 }

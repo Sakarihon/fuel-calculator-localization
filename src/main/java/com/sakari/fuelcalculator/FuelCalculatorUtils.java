@@ -196,4 +196,16 @@ public class FuelCalculatorUtils {
         if (distance <= 0 || stopInterval <= 0) return 0;
         return (int) Math.floor(distance / stopInterval);
     }
+    public static double calculateCostPerKm(double distance, double consumption, double price) {
+        double fuel = calculateFuel(distance, consumption);
+        double cost = calculateCost(fuel, price);
+        return distance > 0 ? cost / distance : 0.0;
+    }
+
+    public static String getCostCategory(double costPerKm) {
+        if (costPerKm < 0.05) return "Very Low";
+        else if (costPerKm < 0.10) return "Low";
+        else if (costPerKm < 0.15) return "Medium";
+        else return "High";
+    }
 }
